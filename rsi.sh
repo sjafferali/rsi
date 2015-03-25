@@ -46,12 +46,14 @@ then
 		print_sub "$line"
 	done
 fi
-maxclients=`grep -i maxclients /var/log/httpd/error_log | wc -l`
-if [[ $maxclients -ge 1 ]]
+if [[ -f /var/log/httpd/error_log ]]
 then
-	print_warn "Found $maxclients MaxClient hits in /var/log/httpd/error_log"
-	print_sub "`grep -i maxclients /var/log/httpd/error_log | tail -1`"
-fi
+	maxclients=`grep -i maxclients /var/log/httpd/error_log | wc -l`
+	if [[ $maxclients -ge 1 ]]
+	then
+		print_warn "Found $maxclients MaxClient hits in /var/log/httpd/error_log"
+		print_sub "`grep -i maxclients /var/log/httpd/error_log | tail -1`"
+	fi
 if [[ `w | grep rack | wc -l` -gt 1 ]]
 then
 	print_warn "Another racker logged in."
