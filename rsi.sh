@@ -87,7 +87,7 @@ echo
 vhost_check () {
 conf_file=`httpd -S 2> /dev/null | grep " $1" | awk -F: '{print$1}' | awk -F'(' '{print$2}'`
 line_number=`httpd -S 2> /dev/null | grep " $1" | awk -F: '{print$2}' | awk -F')' '{print$1}'`
-doc_root=`cat -n $conf_file | egrep -A50 "^\w+$line_number" | grep DocumentRoot | head -1 | awk '{print$3}'`
+doc_root=`cat -n $conf_file | egrep -A50 "^\s+$line_number" | grep DocumentRoot | head -1 | awk '{print$3}'`
 echo $1
 echo Document Root: $doc_root
 echo Virtual Host File: $conf_file:$line_number
