@@ -42,6 +42,7 @@ else
 	print_info "Mailserver: None"
 fi
 
+### LOAD CHECK
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
 if [[ $load -gt $cpus ]]
@@ -54,6 +55,8 @@ then
 	print_warn "System was rebooted recently."
 	print_sub "`uptime`"
 fi
+
+### OOM CHECK
 ooms=`egrep "oom|Out of memory|out_of_memory" /var/log/messages | wc -l`
 if [[ $ooms -ge 1 ]]
 then
@@ -63,6 +66,8 @@ then
 		print_sub "$line"
 	done
 fi
+
+### MAXCLIENTS CHECK
 if [[ -f /var/log/httpd/error_log ]]
 then
 	maxclients=`grep -i maxclients /var/log/httpd/error_log | wc -l`
@@ -72,13 +77,17 @@ then
 		print_sub "`grep -i maxclients /var/log/httpd/error_log | tail -1`"
 	fi
 fi
+
+### OTHER RACKERS LOGGED IN CHECK
 if [[ `w | grep rack | wc -l` -gt 1 ]]
 then
-	print_warn "Another racker logged in."
+	print_warn "Other racker login sessions found."
 	pts=`tty | awk -F/ '{print$4}'`
-	otherpts=`w | grep rack | grep -v "pts/$pts" | awk '{print$2}' | awk -F/ '{print$2}'`
-	print_sub "`w | grep rack | grep pts/$otherpts`"
-	print_sub "`grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1`"
+	w | grep rack | grep -v "pts/$pts" | awk '{print$2}' | awk -F/ '{print$2}'` | while read otherpts
+	do
+		print_sub "`w | grep rack | grep pts/$otherpts`"
+		print_sub "`grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1`"
+	done
 fi
 echo
 }
