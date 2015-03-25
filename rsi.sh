@@ -54,6 +54,7 @@ then
 		print_warn "Found $maxclients MaxClient hits in /var/log/httpd/error_log"
 		print_sub "`grep -i maxclients /var/log/httpd/error_log | tail -1`"
 	fi
+fi
 if [[ `w | grep rack | wc -l` -gt 1 ]]
 then
 	print_warn "Another racker logged in."
