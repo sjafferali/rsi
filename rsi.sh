@@ -12,6 +12,7 @@ print_sub () {
 echo -e "\t - $1"
 }
 
+server_stats () {
 print_info "`cat /etc/redhat-release | head -1`"
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
@@ -60,4 +61,45 @@ then
 	print_sub "`cat /usr/local/cpanel/version`"
 fi
 echo
-echo
+}
+
+
+vhost_check () {
+conf_file=`httpd -S | grep " $1" | awk -F: '{print$1}' | awk -F'(' '{print$2}'`
+line_number=`httpd -S | grep " $1" | awk -F: '{print$2}' | awk -F')' '{print$1}'`
+doc_root=`cat -n $conf_file | egrep -A50 "^ $line_number" | grep DocumentRoot | head -1 | awk '{print$3}'`
+echo $1
+echo Document Root: $doc_root
+echo Virtual Host File: $conf_file:$line_number
+echo 
+print_vhost
+}
+
+print_vhost () {
+if [[ $verbose -eq 1 ]]
+then
+	echo "-----------------"
+	cat -n $conf_file | grep -Pzo "(?s)^ $line_number.*?</VirtualHost>"
+fi
+}
+
+verbose=0
+vhost=0
+domain=""
+
+OPTS=`getopt -o ahvd: -- "$@"`
+eval set -- "$OPTS"
+while true ; do
+    case "$1" in
+	-h) sh_help; shift;;
+        -v) verbose=1; shift;;
+	-d) domain=$2; vhost=1 ; shift 2;;
+	-a) server_stats ; shift;;
+        --) shift; break;;
+    esac
+done
+
+if [[ $vhost -eq 1 ]]
+then
+	vhost_check $domain
+fi
