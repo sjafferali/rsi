@@ -83,7 +83,7 @@ if [[ `w | grep rack | wc -l` -gt 1 ]]
 then
 	print_warn "Other racker login sessions found."
 	pts=`tty | awk -F/ '{print$4}'`
-	w | grep rack | grep -v "pts/$pts" | awk '{print$2}' | awk -F/ '{print$2}'` | while read otherpts
+	w | grep rack | grep -v "pts/$pts" | awk '{print$2}' | awk -F/ '{print$2}' | while read otherpts
 	do
 		print_sub "`w | grep rack | grep pts/$otherpts`"
 		print_sub "`grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1`"
