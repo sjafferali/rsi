@@ -8,12 +8,12 @@ print_warn () {
 echo "[WARN] * $1"
 }
 
-print_info `cat /etc/redhat-release | head -1`
+print_info "`cat /etc/redhat-release | head -1`"
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
 if [[ $load -gt $cpus ]]
 then
-	print_warn "High load detected: "`cat /proc/loadavg`
+	print_warn "High load detected: `cat /proc/loadavg`"
 fi
 up_time=`cat /proc/uptime | awk -F. '{print$1}'`
 if [[ $up_time -lt 86400 ]]
