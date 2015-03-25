@@ -14,6 +14,8 @@ echo -e "\t - $1"
 
 server_stats () {
 print_info "OS: `cat /etc/redhat-release | head -1`"
+
+### CONTROL PANEL CHECK
 if [[ `rpm -q psa | grep -v installed | wc -l` -ge 1 ]]
 then
 	print_info "Control Panel: Plesk"
@@ -25,6 +27,21 @@ then
 else
 	print_info "Control Panel: None"
 fi
+
+### MAIL SERVER CHECK
+if [[ `ps aux | grep exim | wc -l` -ge 2 ]]
+then
+	print_info "Mailserver: `exim --version | head -1`"
+elif [[ `ps aux | grep postfix | wc -l` -ge 2 ]]
+then
+	print_info "Mailserver: Postfix (`postconf mail_version | awk '{print$3}'`)"
+elif [[ `ps aux | grep qmail | wc -l` -ge 2 ]]
+then
+	print_info "Mailserver: Qmail"
+else
+	print_info "Mailserver: None"
+fi
+
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
 if [[ $load -gt $cpus ]]
