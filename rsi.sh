@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ `whoami` != "root" ]]
+then
+	exit 1 ;
+fi
+
 print_info () {
 echo "[INFO] * $1"
 }
