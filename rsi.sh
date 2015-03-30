@@ -1,7 +1,17 @@
 #!/bin/bash
 
+
+purple="\033[35;1m"
+cyan="\033[1;36m"
+green="\033[32m"
+yellow="\033[0;33m"
+bred="\033[1;31m"
+blue="\033[0;34m"
+defclr="\033[0m"
+
 if [[ `whoami` != "root" ]]
 then
+	echo -e "$bred [!] You are not root (`whoami`) $defclr"
 	exit 1 ;
 fi
 
