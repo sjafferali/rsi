@@ -57,6 +57,12 @@ else
 	print_info "Mailserver: None"
 fi
 
+### WEB SERVER CHECK
+if [[ -z `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq` ]]
+then
+	print_info "Port 80: `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq | head -1`"
+fi
+
 ### LOAD CHECK
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
