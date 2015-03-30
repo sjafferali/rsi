@@ -20,7 +20,7 @@ echo -e "$yellow[INFO] *$cyan $1 $defclr"
 }
 
 print_warn () {
-echo "$bred[WARN] *$1 $defclr"
+echo -e "$bred[WARN] *$1 $defclr"
 }
 
 print_sub () {
