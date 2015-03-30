@@ -104,7 +104,20 @@ then
 		print_sub "- `w | grep rack | grep pts/$otherpts`"
 	done
 fi
-echo
+
+### INODES CHECK
+df -i | egrep "(100|9[897])%" | while read line
+do
+	print_warn "Inode utilization at `echo $line | awk '{print$5}'` on `echo $line | awk '{print$6}'`"
+
+done
+
+### DISK CHECK
+df -i | egrep "(100|9[897])%" | while read line
+do
+        print_warn "Disk utilization at `echo $line | awk '{print$5}'` on `echo $line | awk '{print$6}'`"
+
+done
 }
 
 
