@@ -24,7 +24,7 @@ echo -e "$bred[WARN] *$1 $defclr"
 }
 
 print_sub () {
-echo -e "\t - $1"
+echo -e "\t $purple- $1 $defclr"
 }
 
 server_stats () {
