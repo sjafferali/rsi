@@ -11,16 +11,16 @@ defclr="\033[0m"
 
 if [[ `whoami` != "root" ]]
 then
-	echo -e "$bred [!] You are not root (`whoami`) $defclr"
+	echo -e "$bred[!] You are not root (`whoami`) $defclr"
 	exit 1 ;
 fi
 
 print_info () {
-echo "[INFO] * $1"
+echo -e "$yellow[INFO] *$cyan $1 $defclr"
 }
 
 print_warn () {
-echo "[WARN] * $1"
+echo "$bred[WARN] *$1 $defclr"
 }
 
 print_sub () {
