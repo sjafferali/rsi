@@ -58,7 +58,7 @@ else
 fi
 
 ### WEB SERVER CHECK
-if [[ -z `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq` ]]
+if [[ ! -z `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq` ]]
 then
 	print_info "Port 80: `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq | head -1`"
 fi
