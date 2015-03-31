@@ -33,8 +33,7 @@ print_info "OS: `cat /etc/redhat-release | head -1`"
 ### CONTROL PANEL CHECK
 if [[ `rpm -q psa | grep -v installed | wc -l` -ge 1 ]]
 then
-	print_info "Control Panel: Plesk"
-	print_sub "`rpm -q psa`"
+	print_info "Control Panel: Plesk (`rpm -q psa | awk -F"-" '{print$2}'`)"
 	print_sub "admin/`if [[ $(rpm -q psa | awk -F"-" '{print$2}' | sed 's/\.//g') -le "1019" ]] ; then cat /etc/psa/.psa.shadow ; else /usr/local/psa/bin/admin --show-password ; fi`"
 elif [[ -f /usr/local/cpanel/version ]]
 then
