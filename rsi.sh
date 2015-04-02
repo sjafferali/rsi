@@ -141,8 +141,8 @@ done
 
 
 vhost_check () {
-conf_file=`httpd -S 2>&1 | grep " $1" | awk -F'(' '{print$2}' | awk -F')' '{print$1}' | awk -F':' '{print$1}'`
-line_number=`httpd -S 2>&1 | grep " $1" | awk -F')' '{print$1}' | awk -F'(' '{print$2}' | awk -F':' '{print$2}'`
+conf_file=`httpd -S 2>&1 | grep " $1" | awk -F'(' '{print$2}' | awk -F')' '{print$1}' | awk -F':' '{print$1}' | head -1`
+line_number=`httpd -S 2>&1 | grep " $1" | awk -F')' '{print$1}' | awk -F'(' '{print$2}' | awk -F':' '{print$2}' | head -1`
 if [[ -z $conf_file ]]
 then
 	echo "[!] Not found."
