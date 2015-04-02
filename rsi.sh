@@ -67,6 +67,7 @@ if [[ -f /etc/cron.d/rs-sysmon ]]
 then
 	print_info "Rs-sysmon: installed."
 elif [[ -f /etc/cron.d/recap ]]
+then
 	print_info "Recap: installed."
 else
 	print_warn "Neither Rs-sysmon or Recap is installed."
