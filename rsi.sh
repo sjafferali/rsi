@@ -161,7 +161,7 @@ if [[ $verbose -eq 1 ]]
 then
 	echo $conf_file:
 	echo "-------------------------------"
-	cat -n $conf_file | grep -Pzo "(?s)^\s+$line_number.*?</VirtualHost>"
+	cat -n $conf_file | grep -Po "(?s)^\s+$line_number.*?</VirtualHost>"
 fi
 }
 
