@@ -62,6 +62,17 @@ then
 	print_info "Port 80: `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq | head -1`"
 fi
 
+### RECAP CHECK
+if [[ -f /etc/cron.d/rs-sysmon ]]
+then
+	print_info "Rs-sysmon: installed."
+elif [[ -f /etc/cron.d/recap ]]
+	print_info "Recap: installed."
+else
+	print_warn "Neither Rs-sysmon or Recap is installed."
+	print_sub "https://github.com/rackerlabs/recap"
+fi
+
 ### LOAD CHECK
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
