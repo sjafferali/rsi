@@ -132,7 +132,7 @@ do
 done
 
 ### DISK CHECK
-df -i | egrep "(100|9[897])%" | while read line
+df -h | egrep "(100|9[897])%" | while read line
 do
         print_warn "Disk utilization at `echo $line | awk '{print$5}'` on `echo $line | awk '{print$6}'`"
 
@@ -148,7 +148,7 @@ then
 	echo "[!] Not found."
 	exit 1 ;
 fi 
-doc_root=`cat -n $conf_file | egrep -A50 "^\s+$line_number" | grep DocumentRoot | head -1 | awk '{print$3}'`
+doc_root=`cat -n $conf_file | egrep -A50 "^\s*$line_number" | grep DocumentRoot | head -1 | awk '{print$3}'`
 echo Host: $1
 echo Document Root: $doc_root
 echo Virtual Host File: $conf_file:$line_number
