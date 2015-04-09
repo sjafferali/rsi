@@ -172,11 +172,31 @@ then
 fi
 }
 
+
+check_log () {
+TMP=`mktemp`
+cat /dev/stdin > $TMP ;
+
+echo -e "\n=== Top IP Addresses ==="
+cat $TMP | awk '{print$1}' | sort | uniq -c | sort -nr | head
+echo -e "\n=== Top Resources ==="
+cat $TMP | awk -F'"' '{print$2}' | sort | uniq -c | sort -nr | head
+echo -e "\n=== Top Response Codes  ==="
+cat $TMP | awk -F'"' '{print$3}' | awk '{print$1}' | sort | uniq -c | sort -nr | head
+echo -e "\n=== Top Referrers ==="
+cat $TMP | awk -F'"' '{print$4}' | sort | uniq -c | sort -nr | head
+echo -e "\n=== Top User Agents ==="
+cat $TMP | awk -F'"' '{print$6}' | sort | uniq -c | sort -nr | head
+
+rm -f $TMP
+}
+
+
 verbose=0
 vhost=0
 domain=""
 
-OPTS=`getopt -o ahvd: -- "$@"`
+OPTS=`getopt -o ahvd:l -- "$@"`
 eval set -- "$OPTS"
 while true ; do
     case "$1" in
@@ -184,6 +204,7 @@ while true ; do
         -v) verbose=1; shift;;
 	-d) domain=$2; vhost=1 ; shift 2;;
 	-a) server_stats ; shift;;
+	-l) check_log ;;
         --) shift; break;;
     esac
 done
