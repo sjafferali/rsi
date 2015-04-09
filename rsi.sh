@@ -204,7 +204,7 @@ while true ; do
         -v) verbose=1; shift;;
 	-d) domain=$2; vhost=1 ; shift 2;;
 	-a) server_stats ; shift;;
-	-l) check_log ;;
+	-l) check_log ; break;;
         --) shift; break;;
     esac
 done
