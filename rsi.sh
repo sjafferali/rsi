@@ -144,6 +144,7 @@ then
 	print_warn "Current shell is not /bin/bash ($SHELL)"
 fi
 
+exit 
 }
 
 
@@ -219,7 +220,7 @@ Functions:
 -f [file]:	Pass log file to parse instead of using piped output
 "
 
-
+exit 
 }
 
 verbose=0
