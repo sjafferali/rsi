@@ -174,12 +174,12 @@ fi
 
 
 check_log () {
-
-if [[ -z $TMP ]]
+if [[ $R_TMP -eq 1 ]]
 then
-	TMP=`mktemp`
-	cat /dev/stdin > $TMP ;
-	R_TMP=1
+        TMP=$log_file
+else
+        TMP=`mktemp`
+        cat /dev/stdin > $TMP ;
 fi
 
 echo -e "\n=== Top IP Addresses ==="
@@ -193,9 +193,9 @@ cat $TMP | awk -F'"' '{print$4}' | sort | uniq -c | sort -nr | head
 echo -e "\n=== Top User Agents ==="
 cat $TMP | awk -F'"' '{print$6}' | sort | uniq -c | sort -nr | head
 
-if [[ $R_TMP -eq 1 ]]
+if [[ $R_TMP -eq 0 ]]
 then
-	rm -f $TMP
+        rm -f $TMP
 fi
 }
 
@@ -203,21 +203,28 @@ fi
 verbose=0
 vhost=0
 domain=""
-TMP=""
 R_TMP=0
+log_file=""
+parse_log=0
 
-OPTS=`getopt -o ahvd:l -- "$@"`
+OPTS=`getopt -o ahvd:lf: -- "$@"`
 eval set -- "$OPTS"
 while true ; do
     case "$1" in
-	-h) sh_help; shift;;
+        -h) sh_help; shift;;
         -v) verbose=1; shift;;
-	-d) domain=$2; vhost=1 ; shift 2;;
-	-a) server_stats ; shift;;
-	-l) TMP=$2 ; check_log ; break;;
+        -d) domain=$2; vhost=1 ; shift 2;;
+        -a) server_stats ; shift;;
+        -f) log_file=$2 ; R_TMP=1 ; shift 2 ;;
+        -l) parse_log=1 ; shift ;;
         --) shift; break;;
     esac
 done
+
+if [[ $parse_log -eq 1 ]]
+then
+        check_log
+fi
 
 if [[ $vhost -eq 1 ]]
 then
