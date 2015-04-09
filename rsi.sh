@@ -137,6 +137,13 @@ do
         print_warn "Disk utilization at `echo $line | awk '{print$5}'` on `echo $line | awk '{print$6}'`"
 
 done
+
+### SHELL CHECK
+if [[ $SHELL != "/bin/bash" ]]
+then
+	print_warn "Current shell is not /bin/bash ($SHELL)"
+fi
+
 }
 
 
