@@ -200,12 +200,35 @@ fi
 }
 
 
+sh_help () {
+echo "
+Robust System Info
+Version $version
+
+Usage: bash <(curl --insecure -s https://raw.githubusercontent.com/sjafferali/rsi/master/rsi.sh) [function] [option] [arg1]
+
+Functions:
+============================
+-h: 	Shows this help
+-a: 	Do general status checks
+-l:	Show statistics about Apache log (pipe log entries to script)
+
+
+-l Options:
+===========================
+-f [file]:	Pass log file to parse instead of using piped output
+"
+
+
+}
+
 verbose=0
 vhost=0
 domain=""
 R_TMP=0
 log_file=""
 parse_log=0
+version=0.1
 
 OPTS=`getopt -o ahvd:lf: -- "$@"`
 eval set -- "$OPTS"
@@ -224,9 +247,13 @@ done
 if [[ $parse_log -eq 1 ]]
 then
         check_log
+	exit 
 fi
 
 if [[ $vhost -eq 1 ]]
 then
 	vhost_check $domain
+	exit
 fi
+
+sh_help 
