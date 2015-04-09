@@ -174,8 +174,13 @@ fi
 
 
 check_log () {
-TMP=`mktemp`
-cat /dev/stdin > $TMP ;
+
+if [[ -z $TMP ]]
+then
+	TMP=`mktemp`
+	cat /dev/stdin > $TMP ;
+	R_TMP=1
+fi
 
 echo -e "\n=== Top IP Addresses ==="
 cat $TMP | awk '{print$1}' | sort | uniq -c | sort -nr | head
@@ -188,13 +193,18 @@ cat $TMP | awk -F'"' '{print$4}' | sort | uniq -c | sort -nr | head
 echo -e "\n=== Top User Agents ==="
 cat $TMP | awk -F'"' '{print$6}' | sort | uniq -c | sort -nr | head
 
-rm -f $TMP
+if [[ $R_TMP -eq 1 ]]
+then
+	rm -f $TMP
+fi
 }
 
 
 verbose=0
 vhost=0
 domain=""
+TMP=""
+R_TMP=0
 
 OPTS=`getopt -o ahvd:l -- "$@"`
 eval set -- "$OPTS"
@@ -204,7 +214,7 @@ while true ; do
         -v) verbose=1; shift;;
 	-d) domain=$2; vhost=1 ; shift 2;;
 	-a) server_stats ; shift;;
-	-l) check_log ; break;;
+	-l) TMP=$2 ; check_log ; break;;
         --) shift; break;;
     esac
 done
