@@ -204,6 +204,30 @@ fi
 }
 
 
+
+rbl_check () {
+ip_addr=`curl curlmyip.com`
+oct1=`echo $ip_addr | awk -F"." '{print$1}'`
+oct2=`echo $ip_addr | awk -F"." '{print$2}'`
+oct3=`echo $ip_addr | awk -F"." '{print$3}'`
+oct4=`echo $ip_addr | awk -F"." '{print$4}'`
+
+blacklists=(bl.spamcop.net xbl.spamhaus.org sbl.spamhaus.org pbl.spamhaus.org dnsbl-1.uceprotect.net dnsbl.sorbs.net ips.backscatterer.org b.barracudacentral.org relays.mail-abuse.or socks.dnsbl.sorbs.net smtp.dnsbl.sorbs.net)
+
+for i in ${farm_hosts[@]}
+do
+	if [[ ! -z `host $oct4.$oct3.$oct2.$oct1.$i | grep address` ]]
+	then
+		print_warn "$ip_addr listed in $i"
+	else
+		print_info "$ip_addr not listed in $i"
+	fi
+done
+
+exit 
+}
+
+
 sh_help () {
 echo "
 Robust System Info
@@ -216,7 +240,7 @@ Functions:
 -h: 	Shows this help
 -a: 	Do general status checks
 -l:	Show statistics about Apache log (pipe log entries to script)
-
+-e:	Do email checks
 
 -l Options:
 ===========================
@@ -234,7 +258,7 @@ log_file=""
 parse_log=0
 version=0.1
 
-OPTS=`getopt -o ahvd:lf: -- "$@"`
+OPTS=`getopt -o ahvd:lf:e -- "$@"`
 eval set -- "$OPTS"
 while true ; do
     case "$1" in
@@ -244,6 +268,7 @@ while true ; do
         -a) server_stats ; shift;;
         -f) log_file=$2 ; R_TMP=1 ; shift 2 ;;
         -l) parse_log=1 ; shift ;;
+	-e) rbl_check ; shift ;;
         --) shift; break;;
     esac
 done
