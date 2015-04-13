@@ -231,7 +231,7 @@ then
 else
 	print_warn "$ip_addr has no PTR record."
 fi
-
+exit 
 }
 
 
