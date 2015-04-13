@@ -231,6 +231,16 @@ then
 else
 	print_warn "$ip_addr has no PTR record."
 fi
+
+banner=`nmap -sV --script=banner $ip_addr -p 25 | grep banner`
+if [[ -z $banner ]]
+then
+	print_warn "Cannot connect to port 25 on $ip_addr"
+else
+	print_info "Connected to port 25 on $ip_addr $banner"
+fi
+
+
 exit 
 }
 
