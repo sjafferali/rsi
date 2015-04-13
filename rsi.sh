@@ -206,7 +206,10 @@ fi
 
 
 rbl_check () {
-ip_addr=`curl -s --insecure curlmyip.com`
+if [[ -z $ip_addr ]]
+then
+	ip_addr=`curl -s --insecure curlmyip.com`
+fi
 oct1=`echo $ip_addr | awk -F"." '{print$1}'`
 oct2=`echo $ip_addr | awk -F"." '{print$2}'`
 oct3=`echo $ip_addr | awk -F"." '{print$3}'`
@@ -274,8 +277,9 @@ R_TMP=0
 log_file=""
 parse_log=0
 version=0.1
+ip_addr=""
 
-OPTS=`getopt -o ahvd:lf:e -- "$@"`
+OPTS=`getopt -o ahi:vd:lf:e -- "$@"`
 eval set -- "$OPTS"
 while true ; do
     case "$1" in
@@ -286,6 +290,7 @@ while true ; do
         -f) log_file=$2 ; R_TMP=1 ; shift 2 ;;
         -l) parse_log=1 ; shift ;;
 	-e) rbl_check ; shift ;;
+	-i) ip_addr=$2 ; shift 2 ;;
         --) shift; break;;
     esac
 done
