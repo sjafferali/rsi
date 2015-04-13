@@ -214,7 +214,7 @@ oct4=`echo $ip_addr | awk -F"." '{print$4}'`
 
 blacklists=(bl.spamcop.net xbl.spamhaus.org sbl.spamhaus.org pbl.spamhaus.org dnsbl-1.uceprotect.net dnsbl.sorbs.net ips.backscatterer.org b.barracudacentral.org relays.mail-abuse.or socks.dnsbl.sorbs.net smtp.dnsbl.sorbs.net)
 
-for i in ${farm_hosts[@]}
+for i in ${blacklists[@]}
 do
 	if [[ ! -z `host $oct4.$oct3.$oct2.$oct1.$i | grep address` ]]
 	then
@@ -224,7 +224,7 @@ do
 	fi
 done
 
-exit 
+
 }
 
 
