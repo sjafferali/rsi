@@ -206,7 +206,7 @@ fi
 
 
 rbl_check () {
-ip_addr=`curl curlmyip.com`
+ip_addr=`curl -s --insecure curlmyip.com`
 oct1=`echo $ip_addr | awk -F"." '{print$1}'`
 oct2=`echo $ip_addr | awk -F"." '{print$2}'`
 oct3=`echo $ip_addr | awk -F"." '{print$3}'`
