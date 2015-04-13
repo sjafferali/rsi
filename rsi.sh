@@ -224,12 +224,12 @@ do
 	fi
 done
 
-if [[ -z `host $ip | grep address` ]]
+if [[ -z `host $ip_addr | grep address` ]]
 then
-	print_info "$ip has PTR record."
-	print_sub "`host $ip`"
+	print_info "$ip_addr has PTR record."
+	print_sub "`host $ip_addr`"
 else
-	print_warn "$ip has no PTR record."
+	print_warn "$ip_addr has no PTR record."
 fi
 
 }
