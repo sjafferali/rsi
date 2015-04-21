@@ -287,7 +287,7 @@ echo Temporary MySQL Password: $db_pass
 echo
 echo To Import
 echo "-------------------------"
-echo "mysql -u $db_user -p\'$db_pass\' -o $db < [file]"
+echo mysql -u $db_user -p\'$db_pass\' -o $db" < [file]"
 echo
 echo To Remove
 echo "-------------------------"
