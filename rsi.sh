@@ -270,6 +270,22 @@ Functions:
 exit 
 }
 
+db_create () {
+
+db_pass=`cat /dev/urandom | tr -cd a-zA-Z0-9 | tr -d 0oliILO1 | fold -w $length | head -1`
+db_user="rsimport"
+
+
+mysql -Ne "CREATE USER '${db_user}'@'localhost' IDENTIFIED BY '${db_pass}'"
+mysql -Ne "GRANT ALL PRIVILEGES ON ${db}.* TO '${db_user}'@'localhost'"
+mysql -Ne "FLUSH PRIVILEGES"
+echo Temporary MySQL User: $db_user
+echo Temporary MySQL Password: $db_pass
+echo mysql -Ne \"DROP USER '${db_user}'@'localhost'\"
+echo mysql -Ne \"FLUSH PRIVILEGES\"
+}
+
+
 verbose=0
 vhost=0
 domain=""
@@ -278,8 +294,10 @@ log_file=""
 parse_log=0
 version=0.1
 ip_addr=""
+db=""
 
-OPTS=`getopt -o ahi:vd:lf:e -- "$@"`
+
+OPTS=`getopt -o ahi:vd:lf:e -l addtmp: -- "$@"`
 eval set -- "$OPTS"
 while true ; do
     case "$1" in
@@ -291,7 +309,8 @@ while true ; do
         -l) parse_log=1 ; shift ;;
 	-e) rbl_check ; shift ;;
 	-i) ip_addr=$2 ; shift 2 ;;
-        --) shift; break;;
+	"--addtmp") db=$2 ; shift 2 ;;
+	--) shift; break;;
     esac
 done
 
