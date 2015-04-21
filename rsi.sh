@@ -272,7 +272,7 @@ exit
 
 db_create () {
 
-db_pass=`cat /dev/urandom | tr -cd a-zA-Z0-9 | tr -d 0oliILO1 | fold -w $length | head -1`
+db_pass="qpZ6xwcgH77NeGNYMy"
 db_user="rsimport"
 
 
@@ -283,6 +283,7 @@ echo Temporary MySQL User: $db_user
 echo Temporary MySQL Password: $db_pass
 echo mysql -Ne \"DROP USER '${db_user}'@'localhost'\"
 echo mysql -Ne \"FLUSH PRIVILEGES\"
+exit 0 
 }
 
 
