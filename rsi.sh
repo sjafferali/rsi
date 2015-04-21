@@ -275,13 +275,23 @@ db_create () {
 db_pass="qpZ6xwcgH77NeGNYMy"
 db_user="rsimport"
 
-
+echo "[+] Creating user $db_user"
 mysql -Ne "CREATE USER '${db_user}'@'localhost' IDENTIFIED BY '${db_pass}'"
+echo "[+] Assigning user $db_user to database $db"
 mysql -Ne "GRANT ALL PRIVILEGES ON ${db}.* TO '${db_user}'@'localhost'"
+echo "[+] Flushing privileges"
 mysql -Ne "FLUSH PRIVILEGES"
+echo
 echo Temporary MySQL User: $db_user
 echo Temporary MySQL Password: $db_pass
-echo mysql -Ne \"DROP USER '${db_user}'@'localhost'\"
+echo
+echo To Import
+echo "-------------------------"
+echo "mysql -u $db_user -p\'$db_pass\' -o $db < [file]"
+echo
+echo To Remove
+echo "-------------------------"
+echo mysql -Ne \"DROP USER \'$db_user\'@\'localhost\'\"
 echo mysql -Ne \"FLUSH PRIVILEGES\"
 exit 0 
 }
