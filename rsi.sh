@@ -309,7 +309,7 @@ while true ; do
         -l) parse_log=1 ; shift ;;
 	-e) rbl_check ; shift ;;
 	-i) ip_addr=$2 ; shift 2 ;;
-	"--addtmp") db=$2 ; shift 2 ;;
+	"--addtmp") db=$2 ; db_create ; shift 2 ;;
 	--) shift; break;;
     esac
 done
