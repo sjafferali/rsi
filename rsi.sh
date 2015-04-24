@@ -77,7 +77,7 @@ fi
 ### HOLLAND CHECK
 if [[ -f /usr/sbin/holland ]]
 then
-	print_info "Holland: Installed"
+	print_info "Holland: installed"
 fi
 
 ### LOAD CHECK
