@@ -74,6 +74,12 @@ else
 	print_sub "https://github.com/rackerlabs/recap"
 fi
 
+### HOLLAND CHECK
+if [[ -f /usr/sbin/holland ]]
+then
+	print_info "Holland: Installed"
+fi
+
 ### LOAD CHECK
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
 load=`cat /proc/loadavg | awk -F. '{print$1}'`
