@@ -30,6 +30,9 @@ echo -e "\t $purple- $1 $defclr"
 server_stats () {
 print_info "OS: `cat /etc/redhat-release | head -1`"
 
+### PROCESSOR
+print_info "CPU: `cat /proc/cpuinfo  | grep "model name" | awk -F: '{print$2}' | egrep -o "[a-zA-Z0-9].*" | head -1` (`cat /proc/cpuinfo  | grep "model name" | wc -l` Cores)"
+
 ### CONTROL PANEL CHECK
 if [[ `rpm -q psa | grep -v installed | wc -l` -ge 1 ]]
 then
