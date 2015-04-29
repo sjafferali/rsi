@@ -134,14 +134,14 @@ then
 fi
 
 ### INODES CHECK
-df -i | egrep "(100|9[897])%" | while read line
+df -Pi | egrep "(100|9[897])%" | while read line
 do
 	print_warn "Inode utilization at `echo $line | awk '{print$5}'` on `echo $line | awk '{print$6}'`"
 
 done
 
 ### DISK CHECK
-df -h | egrep "(100|9[897])%" | while read line
+df -Ph | egrep "(100|9[897])%" | while read line
 do
         print_warn "Disk utilization at `echo $line | awk '{print$5}'` on `echo $line | awk '{print$6}'`"
 
