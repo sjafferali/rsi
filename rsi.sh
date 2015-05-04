@@ -329,6 +329,7 @@ parse_log=0
 version=0.1
 ip_addr=""
 db=""
+check_rbl=0
 
 
 OPTS=`getopt -o ahi:vd:lf:e -l addtmp: -- "$@"`
@@ -341,7 +342,7 @@ while true ; do
         -a) server_stats ; shift;;
         -f) log_file=$2 ; R_TMP=1 ; shift 2 ;;
         -l) parse_log=1 ; shift ;;
-	-e) rbl_check ; shift ;;
+	-e) check_rbl=1 ; shift ;;
 	-i) ip_addr=$2 ; shift 2 ;;
 	"--addtmp") db=$2 ; db_create ; shift 2 ;;
 	--) shift; break;;
@@ -359,5 +360,12 @@ then
 	vhost_check $domain
 	exit
 fi
+
+if [[ $check_rbl -eq 1 ]]
+then
+	rbl_check
+	exit
+fi
+
 
 sh_help 
