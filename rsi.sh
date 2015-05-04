@@ -253,7 +253,7 @@ fi
 
 if which telnet &> /dev/null
 then
-	BANNER=$({ sleep .4 ; echo ^] ; } | telnet $ip_addr 25 2> /dev/null | awk -F"telnet" '{print$1}' | egrep -v "Trying|Connected|Escape")
+	BANNER=$({ sleep .4 ; echo ^] ; } | telnet $ip_addr 25 2> /dev/null | awk -F"telnet" '{print$1}' | egrep -v "Trying|Connected|Escape" | head -1)
 	if [[ -z $BANNER ]]
 	then
 		print_warn "Cannot connect to port 25 on $ip_addr"
