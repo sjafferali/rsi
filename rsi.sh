@@ -254,14 +254,14 @@ fi
 
 
 
-if which nmap &> /dev/null
+if which telnet &> /dev/null
 then
-	banner=`nmap -sV --script=banner $ip_addr -p 25 | grep banner`
-	if [[ -z $banner ]]
+	BANNER=$({ sleep .4 ; echo ^] ; } | telnet localhost 225 2> /dev/null | awk -F"telnet" '{print$1}')
+	if [[ `echo $BANNER | awk '{print$1}'` == "Trying" ]]
 	then
 		print_warn "Cannot connect to port 25 on $ip_addr"
 	else
-		print_info "Connected to port 25 on $ip_addr $banner"
+		print_info "Connected to port 25 on $ip_addr $BANNER"
 	fi
 fi
 
