@@ -240,18 +240,30 @@ if [[ -z `host $ip_addr | grep address` ]]
 then
 	print_info "$ip_addr has PTR record."
 	print_sub "`host $ip_addr`"
+	IP_HOST=`host $ip_addr | awk '{print$5}'`
+	if [[ $(dig $IP_HOST +short) == "$ip_addr" ]]
+	then
+		print_info "$IP_HOST resolves back to $ip_addr"
+	else
+		print_warn "$IP_HOST does NOT resolve back to $ip_addr"
+	fi
 else
 	print_warn "$ip_addr has no PTR record."
 fi
 
-banner=`nmap -sV --script=banner $ip_addr -p 25 | grep banner`
-if [[ -z $banner ]]
-then
-	print_warn "Cannot connect to port 25 on $ip_addr"
-else
-	print_info "Connected to port 25 on $ip_addr $banner"
-fi
 
+
+
+if which nmap &> /dev/null
+then
+	banner=`nmap -sV --script=banner $ip_addr -p 25 | grep banner`
+	if [[ -z $banner ]]
+	then
+		print_warn "Cannot connect to port 25 on $ip_addr"
+	else
+		print_info "Connected to port 25 on $ip_addr $banner"
+	fi
+fi
 
 exit 
 }
@@ -274,6 +286,10 @@ Functions:
 -l Options:
 ===========================
 -f [file]:	Pass log file to parse instead of using piped output
+
+-e Options:
+===========================
+-i [IP] 	Specify IP address to lookup
 "
 
 exit 
