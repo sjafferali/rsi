@@ -114,7 +114,7 @@ fi
 ### MAXCLIENTS CHECK
 if [[ -f /var/log/httpd/error_log ]]
 then
-	maxclients=`grep -i maxclients /var/log/httpd/error_log | wc -l`
+	maxclients=`tail -20000 /var/log/httpd/error_log | grep -i maxclients | wc -l`
 	if [[ $maxclients -ge 1 ]]
 	then
 		print_warn "Found $maxclients MaxClient hits in /var/log/httpd/error_log"
