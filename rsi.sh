@@ -100,11 +100,11 @@ fi
 ### OOM CHECK
 if [[ -f /var/log/messages ]]
 then
-	ooms=`egrep "oom|Out of memory|out_of_memory" /var/log/messages | wc -l`
+	ooms=`egrep "oom|Out of memory|out_of_memory" /var/log/messages | grep -i kernel | wc -l`
 	if [[ $ooms -ge 1 ]]
 	then
 		print_warn "Found $ooms OOM events in /var/log/messages"
-		egrep "oom|Out of memory|out_of_memory" /var/log/messages | tail | while read line
+		egrep "oom|Out of memory|out_of_memory" /var/log/messages | grep -i kernel | tail | while read line
 		do
 			print_sub "$line"
 		done
