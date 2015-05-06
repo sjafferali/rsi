@@ -223,6 +223,7 @@ oct1=`echo $ip_addr | awk -F"." '{print$1}'`
 oct2=`echo $ip_addr | awk -F"." '{print$2}'`
 oct3=`echo $ip_addr | awk -F"." '{print$3}'`
 oct4=`echo $ip_addr | awk -F"." '{print$4}'`
+echo -e "$green[ IP ] *$cyan $ip_addr $defclr"
 
 blacklists=(bl.spamcop.net xbl.spamhaus.org sbl.spamhaus.org pbl.spamhaus.org dnsbl-1.uceprotect.net dnsbl.sorbs.net ips.backscatterer.org b.barracudacentral.org relays.mail-abuse.or socks.dnsbl.sorbs.net smtp.dnsbl.sorbs.net)
 
@@ -288,6 +289,7 @@ Functions:
 -e Options:
 ===========================
 -i [IP] 	Specify IP address to lookup
+--all		Check all public IPs on server
 "
 
 exit 
@@ -330,9 +332,9 @@ version=0.1
 ip_addr=""
 db=""
 check_rbl=0
+all_ips=0
 
-
-OPTS=`getopt -o ahi:vd:lf:e -l addtmp: -- "$@"`
+OPTS=`getopt -o ahi:vd:lf:e -l addtmp: -l all -- "$@"`
 eval set -- "$OPTS"
 while true ; do
     case "$1" in
@@ -345,6 +347,7 @@ while true ; do
 	-e) check_rbl=1 ; shift ;;
 	-i) ip_addr=$2 ; shift 2 ;;
 	"--addtmp") db=$2 ; db_create ; shift 2 ;;
+	"--all") all_ips=1; shift ;;
 	--) shift; break;;
     esac
 done
@@ -363,8 +366,18 @@ fi
 
 if [[ $check_rbl -eq 1 ]]
 then
-	rbl_check
-	exit
+	if [[ $all_ips -eq 1 ]]
+	then
+		ip addr | grep inet" " | awk '{print$2}' | awk -F/ '{print$1}' | egrep -v "^10\.|^127.0.0.1" | while read line
+		do
+			ip_addr=`curl -s --interface $line curlmyip.de`
+			rbl_check
+		done
+		exit
+	else
+		rbl_check
+		exit
+	fi
 fi
 
 
