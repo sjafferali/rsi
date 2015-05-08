@@ -169,6 +169,11 @@ then
 	exit 1 ;
 fi 
 doc_root=`cat -n $conf_file | egrep -A50 "^\s*$line_number" | grep DocumentRoot | head -1 | awk '{print$3}'`
+if [[ ! -z `echo $doc_root | grep \"` ]]
+then
+	doc_root2=$doc_root
+	doc_root=`echo $doc_root | awk -F'"' '{print$2}'`
+fi
 echo Host: $1
 echo Document Root: $doc_root
 echo Virtual Host File: $conf_file:$line_number
