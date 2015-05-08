@@ -276,10 +276,11 @@ Usage: bash <(curl --insecure -s https://raw.githubusercontent.com/sjafferali/rs
 
 Functions:
 ============================
--h: 	Shows this help
--a: 	Do general status checks
--l:	Show statistics about Apache log (pipe log entries to script)
--e:	Do email checks
+-h: 		Shows this help
+-a: 		Do general status checks
+-l:		Show statistics about Apache log (pipe log entries to script)
+-e:		Do email checks
+--addtmp [db]: 	Create temp database user for .sql file import prep
 
 -l Options:
 ===========================
