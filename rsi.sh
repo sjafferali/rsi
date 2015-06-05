@@ -28,7 +28,7 @@ echo -e "\t $purple- $1 $defclr"
 }
 
 server_stats () {
-OS_V=$(echo -ne (cat /etc/issue) | head -1)
+OS_V=$(echo -ne $(cat /etc/issue) | head -1)
 print_info "OS: $OS_V"
 
 ### PROCESSOR
