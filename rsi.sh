@@ -28,13 +28,17 @@ echo -e "\t $purple- $1 $defclr"
 }
 
 server_stats () {
-print_info "OS: `cat /etc/redhat-release | head -1`"
+OS_V=$(echo -ne (cat /etc/issue) | head -1)
+print_info "OS: $OS_V"
 
 ### PROCESSOR
 print_info "CPU: `cat /proc/cpuinfo  | grep "model name" | awk -F: '{print$2}' | egrep -o "[a-zA-Z0-9].*" | head -1 | sed 's/  */ /g'` (`cat /proc/cpuinfo  | grep "model name" | wc -l` Cores)"
 
 ### CONTROL PANEL CHECK
-if [[ `rpm -q psa | grep -v installed | wc -l` -ge 1 ]]
+if [[ -z `which rpm 2> /dev/null` ]]
+then
+	print_info "Control Panel: None"
+elif [[ `rpm -q psa | grep -v installed | wc -l` -ge 1 ]]
 then
 	print_info "Control Panel: Plesk (`rpm -q psa | awk -F"-" '{print$2}'`)"
 	print_sub "admin/`if [[ $(rpm -q psa | awk -F"-" '{print$2}' | sed 's/\.//g') -le "1019" ]] ; then cat /etc/psa/.psa.shadow ; else /usr/local/psa/bin/admin --show-password ; fi`"
