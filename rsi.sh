@@ -133,9 +133,12 @@ then
 	pts=`tty | awk -F/ '{print$4}'`
 	w | grep rack | grep -v "pts/$pts" | awk '{print$2}' | awk -F/ '{print$2}' | while read otherpts
 	do
-		if [[ ! -z `grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1` ]]
+		if [[ -f /var/log/secure ]]
 		then
-			print_sub "`grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1`"
+			if [[ ! -z `grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1` ]]
+			then
+				print_sub "`grep racker /var/log/secure | grep "/dev/pts/$otherpts" | tail -1`"
+			fi
 		fi
 	done
 fi
