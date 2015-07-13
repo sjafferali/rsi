@@ -30,7 +30,7 @@ echo -e "\t $purple- $1 $defclr"
 server_stats () {
 if [[ -f /etc/redhat-release ]]
 then
-	OS_V=$(cat /etc/redhat-release)
+	OS_V=$(cat /etc/redhat-release | head -1)
 else
 	OS_V=$(echo -ne $(cat /etc/issue | head -1) | head -1)
 fi
