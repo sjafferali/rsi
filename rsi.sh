@@ -28,7 +28,12 @@ echo -e "\t $purple- $1 $defclr"
 }
 
 server_stats () {
-OS_V=$(echo -ne $(cat /etc/issue | head -1) | head -1)
+if [[ -f /etc/redhat-release ]]
+then
+	OS_V=$(cat /etc/redhat-release)
+else
+	OS_V=$(echo -ne $(cat /etc/issue | head -1) | head -1)
+fi
 print_info "OS: $OS_V"
 
 ### PROCESSOR
