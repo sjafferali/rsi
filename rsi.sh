@@ -40,6 +40,7 @@ print_info "OS: $OS_V"
 print_info "CPU: `cat /proc/cpuinfo  | grep "model name" | awk -F: '{print$2}' | egrep -o "[a-zA-Z0-9].*" | head -1 | sed 's/  */ /g'` (`cat /proc/cpuinfo  | grep "model name" | wc -l` Cores)"
 
 ### CONTROL PANEL CHECK
+CPANEL=0
 if [[ -z `which rpm 2> /dev/null` ]]
 then
 	print_info "Control Panel: None"
@@ -50,6 +51,7 @@ then
 elif [[ -f /usr/local/cpanel/version ]]
 then
 	print_info "Control Panel: cPanel/WHM (`cat /usr/local/cpanel/version`)"
+	CPANEL=1
 else
 	print_info "Control Panel: None"
 fi
@@ -170,7 +172,11 @@ fi
 
 driveclient_check
 monitor_check
-
+if [[ $CPANEL -eq 1 ]]
+then
+	print_info "cPanel Detected... Running SSP."
+	bash <(curl -s https://ssp.cpanel.net/run)
+fi
 exit 
 }
 
