@@ -238,7 +238,7 @@ D_PUB_VERSION=`curl -sk http://agentrepo.drivesrvr.com/version.txt`
 
 if [[ $D_VERSION != "package driveclient is not installed" ]]
 then
-	if [[ $D_VERSION == $D_PUB_VERSION ]]
+	if [[ $D_VERSION != $D_PUB_VERSION ]]
 	then
 		print_warn "driveclient package outdated ($D_VERSION vs $D_PUB_VERSION)"
 	fi
@@ -251,7 +251,7 @@ M_PUB_VERSION=`curl -sk http://stable.packages.cloudmonitoring.rackspace.com/VER
 
 if [[ $M_VERSION != "package rackspace-monitoring-agent is not installed" ]]
 then
-        if [[ $M_VERSION == $M_PUB_VERSION ]]
+        if [[ $M_VERSION != $M_PUB_VERSION ]]
         then
                 print_warn "rackspace-monitoring-agent package outdated ($M_VERSION vs $M_PUB_VERSION)"
         fi
