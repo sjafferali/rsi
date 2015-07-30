@@ -247,7 +247,7 @@ else
 fi
 D_PUB_VERSION=`curl -sk http://agentrepo.drivesrvr.com/version.txt`
 
-if [[ $D_VERSION != "package driveclient is not installed" ]]
+if [[ $D_VERSION != "package driveclient is not installed" && ! -z $D_VERSION ]]
 then
 	if [[ $D_VERSION != $D_PUB_VERSION ]]
 	then
@@ -265,7 +265,7 @@ else
 fi
 M_PUB_VERSION=`curl -sk http://stable.packages.cloudmonitoring.rackspace.com/VERSION`
 
-if [[ $M_VERSION != "package rackspace-monitoring-agent is not installed" ]]
+if [[ $M_VERSION != "package rackspace-monitoring-agent is not installed" && ! -z $M_VERSION ]]
 then
         if [[ $M_VERSION != $M_PUB_VERSION ]]
         then
