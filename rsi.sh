@@ -239,7 +239,12 @@ fi
 }
 
 driveclient_check () {
-D_VERSION=`rpm --queryformat "%{VERSION}" -q driveclient`
+if [[ -z `which rpm 2> /dev/null` ]]
+then
+	D_VERSION=`dpkg -s driveclient | grep Version | awk '{print$2}'`
+else
+	D_VERSION=`rpm --queryformat "%{VERSION}" -q driveclient`
+fi
 D_PUB_VERSION=`curl -sk http://agentrepo.drivesrvr.com/version.txt`
 
 if [[ $D_VERSION != "package driveclient is not installed" ]]
@@ -252,7 +257,12 @@ fi
 }
 
 monitor_check () {
-M_VERSION=`rpm --queryformat "%{VERSION}" -q rackspace-monitoring-agent`
+if [[ -z `which rpm 2> /dev/null` ]]
+then
+	M_VERSION=`dpkg -s rackspace-monitoring-agent | grep Version | awk '{print$2}'`
+else
+	M_VERSION=`rpm --queryformat "%{VERSION}" -q rackspace-monitoring-agent`
+fi
 M_PUB_VERSION=`curl -sk http://stable.packages.cloudmonitoring.rackspace.com/VERSION`
 
 if [[ $M_VERSION != "package rackspace-monitoring-agent is not installed" ]]
