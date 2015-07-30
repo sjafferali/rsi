@@ -168,6 +168,9 @@ then
 	print_warn "Current shell is not /bin/bash ($SHELL)"
 fi
 
+driveclient_check
+monitor_check
+
 exit 
 }
 
@@ -229,7 +232,31 @@ then
 fi
 }
 
+driveclient_check () {
+D_VERSION=`rpm --queryformat "%{VERSION}" -q driveclient`
+D_PUB_VERSION=`curl -sk http://agentrepo.drivesrvr.com/version.txt`
 
+if [[ $D_VERSION != "package driveclient is not installed" ]]
+then
+	if [[ $D_VERSION == $D_PUB_VERSION ]]
+	then
+		print_warn "driveclient package outdated ($D_VERSION vs $D_PUB_VERSION)"
+	fi
+fi
+}
+
+monitor_check () {
+M_VERSION=`rpm --queryformat "%{VERSION}" -q rackspace-monitoring-agent`
+M_PUB_VERSION=`curl -sk http://stable.packages.cloudmonitoring.rackspace.com/VERSION`
+
+if [[ $M_VERSION != "package rackspace-monitoring-agent is not installed" ]]
+then
+        if [[ $M_VERSION == $M_PUB_VERSION ]]
+        then
+                print_warn "rackspace-monitoring-agent package outdated ($M_VERSION vs $M_PUB_VERSION)"
+        fi
+fi
+}
 
 rbl_check () {
 if [[ -z $ip_addr ]]
