@@ -76,6 +76,12 @@ then
 	print_info "Port 80: `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq | head -1`"
 fi
 
+### HOLLAND CHECK
+if [[ -f /usr/sbin/holland ]]
+then
+	print_info "Holland: installed"
+fi
+
 ### RECAP CHECK
 if [[ -f /etc/cron.d/rs-sysmon ]]
 then
@@ -88,11 +94,6 @@ else
 	print_sub "https://github.com/rackerlabs/recap"
 fi
 
-### HOLLAND CHECK
-if [[ -f /usr/sbin/holland ]]
-then
-	print_info "Holland: installed"
-fi
 
 ### LOAD CHECK
 cpus=`cat /proc/cpuinfo  | grep processor | wc -l`
