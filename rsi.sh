@@ -76,6 +76,12 @@ then
 	print_info "Port 80: `netstat -tlnp | egrep ":80 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq | head -1`"
 fi
 
+# MYSQL CHECK
+if [[ ! -z `netstat -tlnp | egrep ":3306 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq` ]]
+then
+	print_info "Port 3306: `netstat -tlnp | egrep ":3306 .*LISTEN" | awk -F/ '{print$2}' | sort | uniq | head -1`"
+fi
+
 ### HOLLAND CHECK
 if [[ -f /usr/sbin/holland ]]
 then
