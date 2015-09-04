@@ -128,6 +128,17 @@ then
 			print_sub "$line"
 		done
 	fi
+elif [[ -f /var/log/kern.log ]]
+then
+	ooms=$(egrep "oom|Out of memory|out_of_memory|Kill"  /var/log/kern.log | wc -l)
+        if [[ $ooms -ge 1 ]]
+        then
+                print_warn "Found $ooms OOM events in /var/log/kern.log"
+                egrep "oom|Out of memory|out_of_memory|Kill" /var/log/kern.log | tail | while read line
+                do
+                        print_sub "$line"
+                done
+        fi
 fi
 
 ### MAXCLIENTS CHECK
