@@ -191,6 +191,7 @@ fi
 
 driveclient_check
 monitor_check
+kernel_ubuntu_check
 if [[ $CPANEL -eq 1 ]]
 then
 	print_info "cPanel Detected... Running SSP."
@@ -290,6 +291,17 @@ then
         then
                 print_warn "rackspace-monitoring-agent package outdated ($M_VERSION vs $M_PUB_VERSION)"
         fi
+fi
+}
+
+kernel_ubuntu_check () {
+if [[ ! -z `which dpkg 2> /dev/null` ]]
+then
+	NUM_KERNELS=$(dpkg -l | grep -c linux-image)
+	if [[ $NUM_KERNELS -gt "10" ]]
+	then
+		print_warn "More than 10 kernels installed ($NUM_KERNELS)"
+	fi
 fi
 }
 
