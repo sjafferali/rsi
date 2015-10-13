@@ -261,7 +261,7 @@ fi
 driveclient_check () {
 if [[ -z `which rpm 2> /dev/null` ]]
 then
-	D_VERSION=`dpkg -s driveclient 2> /dev/null | grep Version | awk '{print$2}'`
+	D_VERSION=`dpkg -s driveclient 2> /dev/null | grep Version | awk '{print$2}' | awk -F'-' '{print$1}'`
 else
 	D_VERSION=`rpm --queryformat "%{VERSION}" -q driveclient`
 fi
