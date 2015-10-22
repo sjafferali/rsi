@@ -192,6 +192,7 @@ fi
 driveclient_check
 monitor_check
 kernel_ubuntu_check
+readonly_check
 if [[ $CPANEL -eq 1 ]]
 then
 	print_info "cPanel Detected... Running SSP."
@@ -200,6 +201,17 @@ fi
 exit 
 }
 
+readonly_check () {
+df -P | egrep -v "Filesystem|tmpfs" | awk '{print$6}' | while read line
+do
+	if touch $line/rsi.readonly.temp 2> /dev/null
+	then
+		rm -f $line/rsi.readonly.temp
+	else
+		print_warn "Filesystem $line is currently read-only"
+	fi
+done
+}
 
 vhost_check () {
 conf_file=`httpd -S 2>&1 | grep " $1" | awk -F'(' '{print$2}' | awk -F')' '{print$1}' | awk -F':' '{print$1}' | head -1`
