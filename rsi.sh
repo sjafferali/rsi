@@ -384,6 +384,7 @@ Functions:
 -l:		Show statistics about Apache log (pipe log entries to script)
 -e:		Do email checks
 --addtmp [db]: 	Create temp database user for .sql file import prep
+-d [domain]: 	Display information about a domains vhost
 
 -l Options:
 ===========================
