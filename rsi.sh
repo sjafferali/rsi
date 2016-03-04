@@ -193,6 +193,7 @@ driveclient_check
 monitor_check
 kernel_ubuntu_check
 readonly_check
+default_editor_check
 if [[ $CPANEL -eq 1 ]]
 then
 	print_info "cPanel Detected... Running SSP."
@@ -201,6 +202,7 @@ fi
 exit 
 }
 
+### CHECKS IF A FILESYSTEM IS READONLY
 readonly_check () {
 df -P | egrep -v "Filesystem|tmpfs" | awk '{print$6}' | while read line
 do
@@ -211,6 +213,13 @@ do
 		print_warn "Filesystem $line is currently read-only"
 	fi
 done
+}
+
+default_editor_check () {
+if [[ ! -z $EDITOR && -z $(echo $EDITOR | egrep "^(/usr/bin/vim|/bin/vi|vi|vim)$" ]]
+then
+	print_warn "Default editor is currently set to "$(EDITOR)
+fi
 }
 
 vhost_check () {
