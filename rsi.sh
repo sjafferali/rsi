@@ -216,7 +216,7 @@ done
 }
 
 default_editor_check () {
-if [[ ! -z $EDITOR && -z $(echo $EDITOR | egrep "^(/usr/bin/vim|/bin/vi|vi|vim)$" ]]
+if [[ ! -z $EDITOR && -z $(echo $EDITOR | egrep "^(/usr/bin/vim|/bin/vi|vi|vim)$") ]]
 then
 	print_warn "Default editor is currently set to "$(EDITOR)
 fi
