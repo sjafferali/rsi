@@ -22,7 +22,7 @@ then
 	echo
 	echo -e "$yellow Read more details at https://github.com/sjafferali/verifyscript $defclr"
 	echo
-	exit 1
+	exit 1 ; 
 fi
 
 
