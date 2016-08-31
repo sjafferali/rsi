@@ -20,7 +20,8 @@ then
 	echo -e "$bred [+] Refusing to run script. To override and run anyways, execute the command like below.$defclr"
 	echo -e "$yellow ====>$defclr 'VERIFIED=1 bash <(curl -s https://raw.githubusercontent.com/sjafferali/rsi/master/rsi.sh) -a'"
 	echo
-	echo "Read more details at https://github.com/sjafferali/verifyscript"
+	echo -e "$yellow Read more details at https://github.com/sjafferali/verifyscript $defclr"
+	echo
 	exit 1
 fi
 
