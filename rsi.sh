@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# This file is signed
 
 purple="\033[35;1m"
 cyan="\033[1;36m"
