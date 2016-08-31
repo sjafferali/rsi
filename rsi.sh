@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This file is signed
+# This file is signed with my PGP key
 
 purple="\033[35;1m"
 cyan="\033[1;36m"
