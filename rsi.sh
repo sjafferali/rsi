@@ -2,20 +2,6 @@
 
 # This file is signed with my PGP key
 
-if [[ -z $VERIFIED ]]
-then
-	echo
-	echo -e "$bred [!] Unverified script being redirected to bash. For security, I recommend running this by passing it to my verification script using the below command:$defclr"
-	echo -e "$yellow ====>$defclr 'bash <(curl -s https://sjafferali.keybase.pub/verify.sh) "'"https://raw.githubusercontent.com/sjafferali/rsi/master/rsi.sh -a"'"'"
-	echo
-	echo -e "$bred [+] Refusing to run script. To override and run anyways, execute the command like below.$defclr"
-	echo -e "$yellow ====>$defclr 'VERIFIED=1 bash <(curl --insecure -s https://raw.githubusercontent.com/sjafferali/rsi/master/rsi.sh) -a'"
-	echo
-	exit 1
-fi
-
-
-
 purple="\033[35;1m"
 cyan="\033[1;36m"
 green="\033[32m"
@@ -23,6 +9,23 @@ yellow="\033[0;33m"
 bred="\033[1;31m"
 blue="\033[0;34m"
 defclr="\033[0m"
+
+if [[ -z $VERIFIED ]]
+then
+	echo
+	echo -e "$bred [!] Unverified script being redirected to bash.$defclr"
+        echo -e "$bred [-] For security, I recommend running this by passing it to my verification script using the below command:$defclr"
+	echo -e "$yellow ====>$defclr 'bash <(curl -s https://sjafferali.keybase.pub/verify.sh) "'"https://raw.githubusercontent.com/sjafferali/rsi/master/rsi.sh -a"'"'"
+	echo
+	echo -e "$bred [+] Refusing to run script. To override and run anyways, execute the command like below.$defclr"
+	echo -e "$yellow ====>$defclr 'VERIFIED=1 bash <(curl -s https://raw.githubusercontent.com/sjafferali/rsi/master/rsi.sh) -a'"
+	echo
+	echo "Read more details at https://github.com/sjafferali/verifyscript"
+	exit 1
+fi
+
+
+
 
 if [[ `whoami` != "root" ]]
 then
